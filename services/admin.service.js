@@ -42,7 +42,14 @@ module.exports = {
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-				return ctx.params.id;
+				const params = new URLSearchParams();
+				params.append(ctx.params.id);
+
+				const response = await fetch("http://localhost:3001/adminService/activateRegisterStore", {method: "POST", body: params});
+				const data = await response.json();
+
+				console.log(data);
+				return data;
 			}
 		},
 		acceptRegisterStore: {
@@ -55,7 +62,13 @@ module.exports = {
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-				return ctx.params.id;
+				const params = new URLSearchParams();
+				params.append(ctx.params.id);
+
+				const response = await fetch("http://localhost:3001/adminService/acceptRegisterStore", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
 			}
 		}
 	},

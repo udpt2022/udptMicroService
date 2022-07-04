@@ -6,7 +6,7 @@ function adminController() {
     return {
         acceptRegisterStore: async (req,res,next) => {
             try {
-                let shopID = req.params.id
+                let shopID = req.body.id
                 console.log(shopID)
                 let status = await storeModel.findOneAndUpdate(
                     {_id: shopID
@@ -26,7 +26,7 @@ function adminController() {
         },
         activateRegisterStore: async (req,res,next) => {
             try {
-                let shopID = req.params.id
+                let shopID = req.body.id
                 console.log(shopID)
                 let status = await storeModel.findOneAndUpdate(
                     {_id: shopID
@@ -45,7 +45,7 @@ function adminController() {
                 }
         },
         sendMailContractStore: async (req,res,next) => {
-            
+
         },
     };
 }
