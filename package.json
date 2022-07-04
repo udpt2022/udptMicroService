@@ -1,0 +1,44 @@
+{
+  "name": "udpt_dct",
+  "version": "1.0.0",
+  "description": "My Moleculer-based microservices project",
+  "scripts": {
+    "dev": "moleculer-runner --repl --hot services/**/*.service.js",
+    "start": " concurrently \"nodemon ./api/orderService/bin/www\"  \"nodemon ./api/adminService/bin/www\" \"nodemon ./api/shopService/bin/www\" \"nodemon ./api/homeService/bin/www\" \"nodemon ./api/productService/bin/www\" \"moleculer-runner --repl --hot services/**/*.service.js\" ",
+    "cli": "moleculer connect NATS",
+    "ci": "jest --watch",
+    "test": "jest --coverage",
+    "lint": "eslint services"
+  },
+  "keywords": [
+    "microservices",
+    "moleculer"
+  ],
+  "author": "",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "jest": "^27.1.0",
+    "jest-cli": "^27.1.0",
+    "moleculer-repl": "^0.6.6"
+  },
+  "dependencies": {
+    "fetch": "^1.1.0",
+    "moleculer": "^0.14.16",
+    "moleculer-web": "^0.10.2",
+    "mongoose": "^6.4.0",
+    "mongose": "^0.0.2-security",
+    "nats": "^2.2.0",
+    "node-fetch": "^2.6.1"
+  },
+  "engines": {
+    "node": ">= 12.x.x"
+  },
+  "jest": {
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node",
+    "rootDir": "./services",
+    "roots": [
+      "../test"
+    ]
+  }
+}
