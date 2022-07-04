@@ -5,7 +5,7 @@ const fetch = require("node-fetch");
  */
 
 module.exports = {
-	name: "branch",
+	name: "order",
 
 	/**
 	 * Settings
@@ -32,47 +32,51 @@ module.exports = {
 		 *
 		 * @returns
 		 */
-		hello: {
+		listProductByUser: {
 			rest: {
 				method: "GET",
-				path: "/hello"
+				path: "/listProductByUser"
+			},
+			params: {
+				id: "string"
 			},
 			async handler() {
 				return "Hello Moleculer";
 			}
 		},
-
-		/**
-		 * Welcome, a username
-		 *
-		 * @param {String} name - User name
-		 */
-		welcome: {
+		listAllProduct: {
+			rest: {
+				method: "GET",
+				path: "/listAllProduct"
+			},
+			async handler() {
+				return "Hello Moleculer";
+			}
+		},
+		addProduct: {
+			rest: {
+				method: "POST",
+				path: "/addProduct"
+			},
+			async handler() {
+				return "Hello Moleculer";
+			}
+		},
+		listCartByUser: {
 			rest:
 			{ 	method: "GET",
-				path: "/Welcome"
+				path: "/listCartByUser"
 			},
 			params: {
 				id: "string"
 			},
 			/** @param {Context} ctx  */
-			async handler() {
-				const response = await fetch("http://localhost:3003/cart/list/KH001");
+			async handler(ctx) {
+				const response = await fetch("http://localhost:3003/cart/listCartByUser/" + new URLSearchParams({
+					id: ctx.params.id,
+				}));
 				const data = await response.json();
 				return data.cartList;
-			}
-		},
-		xinchao: {
-			rest:
-			{ 	method: "GET",
-				path: "/xinchao"
-			},
-			params: {
-				name: "string"
-			},
-			/** @param {Context} ctx  */
-			async handler(ctx) {
-				return `Welcome, ${ctx.params.name}`;
 			}
 		}
 	},

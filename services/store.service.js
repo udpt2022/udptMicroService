@@ -1,10 +1,11 @@
 "use strict";
+const fetch = require("node-fetch");
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
 
 module.exports = {
-	name: "test",
+	name: "store",
 
 	/**
 	 * Settings
@@ -52,11 +53,13 @@ module.exports = {
 				path: "/Welcome"
 			},
 			params: {
-				name: "string"
+				id: "string"
 			},
 			/** @param {Context} ctx  */
-			async handler(ctx) {
-				return `Welcome, ${ctx.params.name}`;
+			async handler() {
+				const response = await fetch("http://localhost:3003/cart/list/KH001");
+				const data = await response.json();
+				return data.cartList;
 			}
 		},
 		xinchao: {
