@@ -32,47 +32,67 @@ module.exports = {
 		 *
 		 * @returns
 		 */
-		hello: {
+		postProduct: {
 			rest: {
-				method: "GET",
-				path: "/hello"
+				method: "POST",
+				path: "/postProduct"
 			},
-			async handler() {
-				return "Hello Moleculer";
+			params: {
+				productID: "string",
+				productName: "string",
+				price: "string",
+				unit: "string",
+				inventoryNumber: "string",
+			},
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+				const params = new URLSearchParams();
+				params.append(ctx.params.productID, ctx.params.productName, ctx.params.price, ctx.params.unit, ctx.params.inventoryNumber);
+
+				const response = await fetch("localhost:3004/productService/postProduct", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
 			}
 		},
+		updateProduct: {
+			rest:
+			{ 	method: "POST",
+				path: "/updateProduct"
+			},
+			params: {
+				productID: "string",
+				productName: "string",
+				price: "string",
+				unit: "string",
+				inventoryNumber: "string",
+			},
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+				const params = new URLSearchParams();
+				params.append(ctx.params.productID, ctx.params.productName, ctx.params.price, ctx.params.unit, ctx.params.inventoryNumber);
 
-		/**
-		 * Welcome, a username
-		 *
-		 * @param {String} name - User name
-		 */
-		welcome: {
+				const response = await fetch("localhost:3004/productService/updateProduct", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
+			}
+		},
+		getCommentProduct: {
 			rest:
 			{ 	method: "GET",
-				path: "/Welcome"
+				path: "/getCommentProduct"
 			},
 			params: {
 				id: "string"
 			},
 			/** @param {Context} ctx  */
-			async handler() {
-				const response = await fetch("http://localhost:3003/cart/list/KH001");
-				const data = await response.json();
-				return data.cartList;
-			}
-		},
-		xinchao: {
-			rest:
-			{ 	method: "GET",
-				path: "/xinchao"
-			},
-			params: {
-				name: "string"
-			},
-			/** @param {Context} ctx  */
 			async handler(ctx) {
-				return `Welcome, ${ctx.params.name}`;
+				const response = await fetch("localhost:3004/productService/getCommentProduct/" + new URLSearchParams({
+					id: ctx.params.id,
+				}));
+				const data = await response.json();
+				return data.comment;
 			}
 		}
 	},

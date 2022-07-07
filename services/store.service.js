@@ -26,53 +26,47 @@ module.exports = {
 	 * Actions
 	 */
 	actions: {
-
-		/**
-		 * Say a 'Hello' action.
-		 *
-		 * @returns
-		 */
-		hello: {
-			rest: {
-				method: "GET",
-				path: "/hello"
-			},
-			async handler() {
-				return "Hello Moleculer";
-			}
-		},
-
-		/**
-		 * Welcome, a username
-		 *
-		 * @param {String} name - User name
-		 */
-		welcome: {
+		getStatusRegisterStore: {
 			rest:
 			{ 	method: "GET",
-				path: "/Welcome"
+				path: "/getStatusRegisterStore"
 			},
 			params: {
 				id: "string"
 			},
 			/** @param {Context} ctx  */
-			async handler() {
-				const response = await fetch("http://localhost:3003/cart/list/KH001");
+			async handler(ctx) {
+				const response = await fetch("localhost:3005/storeService/getStatusRegisterStore/"+ new URLSearchParams({
+					id: ctx.params.id,
+				}));
 				const data = await response.json();
-				return data.cartList;
+				return data.status;
 			}
 		},
-		xinchao: {
+		registerStore: {
 			rest:
-			{ 	method: "GET",
-				path: "/xinchao"
+			{ 	method: "POST",
+				path: "/registerStore"
 			},
 			params: {
-				name: "string"
+				storeName : "string",
+				phone : "string",
+				email : "string",
+				area : "string",
+				province : "string",
+				district : "string",
+				address : "string",
+
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-				return `Welcome, ${ctx.params.name}`;
+				const params = new URLSearchParams();
+				params.append(ctx.params.storeName, ctx.params.phone, ctx.params.email, ctx.params.area, ctx.params.province, ctx.params.district, ctx.params.address);
+
+				const response = await fetch("localhost:3005/storeService/registerStore", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
 			}
 		}
 	},

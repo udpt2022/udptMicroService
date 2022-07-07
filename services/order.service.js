@@ -26,51 +26,74 @@ module.exports = {
 	 * Actions
 	 */
 	actions: {
-
-		/**
-		 * Say a 'Hello' action.
-		 *
-		 * @returns
-		 */
-		listProductByUser: {
-			rest: {
-				method: "GET",
-				path: "/listProductByUser"
-			},
-			params: {
-				id: "string"
-			},
-			async handler() {
-				return "Hello Moleculer";
-			}
-		},
-		listAllProduct: {
-			rest: {
-				method: "GET",
-				path: "/listAllProduct"
-			},
-			async handler() {
-				return "Hello Moleculer";
-			}
-		},
-		addProduct: {
+		addProductToCart: {
 			rest: {
 				method: "POST",
-				path: "/addProduct"
+				path: "/cart/addProductToCart"
 			},
-			async handler() {
-				return "Hello Moleculer";
+			params: {
+				productID: "string",
+				productName: "string",
+				price: "string",
+				quantity: "string",
+				cusID: "string",
+			},
+			async handler(ctx) {
+				const params = new URLSearchParams();
+				params.append(ctx.params.productID, ctx.params.productName, ctx.params.quantity, ctx.params.cusID);
+
+				const response = await fetch("localhost:3003/cart/addProductToCart", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
 			}
 		},
-		listCartByUser: {
-			rest:
-			{ 	method: "GET",
-				path: "/listCartByUser"
+		removeProductFromCart: {
+			rest: {
+				method: "POST",
+				path: "/cart/removeProductFromCart"
+			},
+			params: {
+				productID: "string",
+				cusID: "string",
+			},
+			async handler(ctx) {
+				const params = new URLSearchParams();
+				params.append(ctx.params.productID,  ctx.params.cusID);
+
+				const response = await fetch("localhost:3003/cart/removeProductFromCart", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
+			}
+		},
+		addQuantity: {
+			rest: {
+				method: "POST",
+				path: "/cart/addQuantity"
+			},
+			params: {
+				productID: "string",
+				cusID: "string",
+			},
+			async handler(ctx) {
+				const params = new URLSearchParams();
+				params.append(ctx.params.productID,  ctx.params.cusID);
+
+				const response = await fetch("localhost:3003/cart/addQuantity", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
+			}
+		},
+		listByUserID: {
+			rest: {
+				method: "GET",
+				path: "/cart/listByUserID"
 			},
 			params: {
 				id: "string"
 			},
-			/** @param {Context} ctx  */
 			async handler(ctx) {
 				const response = await fetch("http://localhost:3003/cart/listCartByUser/" + new URLSearchParams({
 					id: ctx.params.id,
@@ -78,7 +101,93 @@ module.exports = {
 				const data = await response.json();
 				return data.cartList;
 			}
-		}
+		},
+		add: {
+			rest:
+			{ 	method: "POST",
+				path: "/orderTicket/addr"
+			},
+			params: {
+				cusID: "string",
+				status: "string",
+				totalPrice: "string",
+			},
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+				const params = new URLSearchParams();
+				params.append(ctx.params.cusID,  ctx.params.status, ctx.params.totalPrice);
+
+				const response = await fetch("localhost:3003/orderTicket/add", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
+			}
+		},
+		listOrderByUserID: {
+			rest:
+			{ 	method: "GET",
+				path: "/orderTicket/listByUserID"
+			},
+			params: {
+				id: "string"
+			},
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+				const response = await fetch("localhost:3003/orderTicket/listByUserID/" + new URLSearchParams({
+					id: ctx.params.id,
+				}));
+				const data = await response.json();
+				return data.orderTicketList;
+			}
+		},
+		listAll: {
+			rest:
+			{ 	method: "GET",
+				path: "/orderTicket/listAll"
+			},
+			async handler() {
+				const response = await fetch("localhost:3003/orderTicket/listAll");
+				const data = await response.json();
+				return data.orderTicketList;
+			}
+		},
+		addCheckOut: {
+			rest:
+			{ 	method: "GET",
+				path: "/checkOut/add"
+			},
+			params: {
+				cusID: "string",
+				status: "string"
+			},
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+				const params = new URLSearchParams();
+				params.append(ctx.params.cusID,  ctx.params.status);
+
+				const response = await fetch("localhost:3003/checkOut/add ", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
+			}
+		},
+		listCheckOutByUserID: {
+			rest:
+			{ 	method: "GET",
+				path: "/checkOut/listByUserID"
+			},
+			params: {
+				id: "string"
+			},
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+				const response = await fetch("localhost:3003/checkOut/listByUserID/" + new URLSearchParams({
+					id: ctx.params.id,
+				}));
+				const data = await response.json();
+				return data.checkOutList;
+			}
+		},
 	},
 
 	/**
