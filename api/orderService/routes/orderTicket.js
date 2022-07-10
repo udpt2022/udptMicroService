@@ -3,8 +3,8 @@ var router = express.Router();
 
 const orderTicket = require('../controllers/orderTicketController')
 
-router.get('/listProductByUser/:id', orderTicket.listByUserID);
-router.get('/listAllProduct', orderTicket.listAll);
-router.post('/addProduct', orderTicket.add);
+router.get('/listByUserID/:id', orderTicket.listByUserID);
+router.get('/listAll', orderTicket.listAll);
+router.post('/add', orderTicket.add);
 
 module.exports = router;

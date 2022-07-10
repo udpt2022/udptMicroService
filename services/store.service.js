@@ -36,7 +36,7 @@ module.exports = {
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-				const response = await fetch("localhost:3005/storeService/getStatusRegisterStore/"+ new URLSearchParams({
+				const response = await fetch("http://localhost:3005/storeService/getStatusRegisterStore/"+ new URLSearchParams({
 					id: ctx.params.id,
 				}));
 				const data = await response.json();
@@ -63,7 +63,7 @@ module.exports = {
 				const params = new URLSearchParams();
 				params.append(ctx.params.storeName, ctx.params.phone, ctx.params.email, ctx.params.area, ctx.params.province, ctx.params.district, ctx.params.address);
 
-				const response = await fetch("localhost:3005/storeService/registerStore", {method: "POST", body: params});
+				const response = await fetch("http://localhost:3005/storeService/registerStore", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
 				return data;

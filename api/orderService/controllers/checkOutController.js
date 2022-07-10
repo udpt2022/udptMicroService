@@ -27,7 +27,8 @@ function checkOutController() {
         },
         listByUserID: async (req, res, next) => {
             try {
-                let checkOutList = await checkOutModel.find()
+				let cusID = req.params.id
+                let checkOutList = await checkOutModel.find({customerID: cusID})
                 console.log(checkOutList)
                 return res.status(200).json({checkOutList})
             } catch (error) {

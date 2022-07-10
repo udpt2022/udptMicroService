@@ -28,8 +28,9 @@ function orderTicketController() {
         },
         listByUserID: async (req, res, next) => {
             try {
-                let cusID = req.body.cusID
-                let orderTicketList = await orderTicketModel.find({customerID: cusID})
+				let cusID = req.params.id
+                let orderTicketList = await orderTicketModel.find({customerID: cusID.slice(3)})
+                console.log(cusID.slice(3))
                 return res.status(200).json({orderTicketList})
             } catch (error) {
                 return res.status(400).json(error);

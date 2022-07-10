@@ -12,7 +12,7 @@ const orderTicket = new schema(
         }
     ],
     customerID: { type:String, required: true},
-    status: { type: String , required: true}, 
+    status: { type: String , required: true},
     total: { type: String}
 }
 );

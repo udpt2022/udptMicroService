@@ -4,7 +4,7 @@
   "description": "My Moleculer-based microservices project",
   "scripts": {
     "dev": "moleculer-runner --repl --hot services/**/*.service.js",
-    "start": " concurrently \"nodemon ./api/orderService/bin/www\"  \"nodemon ./api/adminService/bin/www\" \"nodemon ./api/shopService/bin/www\" \"nodemon ./api/homeService/bin/www\" \"nodemon ./api/productService/bin/www\" \"moleculer-runner --repl --hot services/**/*.service.js\" ",
+    "start": " concurrently \"moleculer-runner --repl --hot services/**/*.service.js\" \"nodemon ./api/orderService/bin/www\"  \"nodemon ./api/adminService/bin/www\" \"nodemon ./api/shopService/bin/www\" \"nodemon ./api/homeService/bin/www\" \"nodemon ./api/productService/bin/www\"  ",
     "cli": "moleculer connect NATS",
     "ci": "jest --watch",
     "test": "jest --coverage",

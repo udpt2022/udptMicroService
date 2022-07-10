@@ -49,7 +49,7 @@ module.exports = {
 				const params = new URLSearchParams();
 				params.append(ctx.params.productID, ctx.params.productName, ctx.params.price, ctx.params.unit, ctx.params.inventoryNumber);
 
-				const response = await fetch("localhost:3004/productService/postProduct", {method: "POST", body: params});
+				const response = await fetch("http://localhost:3004/productService/postProduct", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
 				return data;
@@ -72,7 +72,7 @@ module.exports = {
 				const params = new URLSearchParams();
 				params.append(ctx.params.productID, ctx.params.productName, ctx.params.price, ctx.params.unit, ctx.params.inventoryNumber);
 
-				const response = await fetch("localhost:3004/productService/updateProduct", {method: "POST", body: params});
+				const response = await fetch("http://localhost:3004/productService/updateProduct", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
 				return data;
@@ -88,7 +88,7 @@ module.exports = {
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-				const response = await fetch("localhost:3004/productService/getCommentProduct/" + new URLSearchParams({
+				const response = await fetch("http://localhost:3004/productService/getCommentProduct/" + new URLSearchParams({
 					id: ctx.params.id,
 				}));
 				const data = await response.json();

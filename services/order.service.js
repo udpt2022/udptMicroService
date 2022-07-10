@@ -42,7 +42,7 @@ module.exports = {
 				const params = new URLSearchParams();
 				params.append(ctx.params.productID, ctx.params.productName, ctx.params.quantity, ctx.params.cusID);
 
-				const response = await fetch("localhost:3003/cart/addProductToCart", {method: "POST", body: params});
+				const response = await fetch("http://localhost:3003/cart/addProductToCart", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
 				return data;
@@ -60,8 +60,7 @@ module.exports = {
 			async handler(ctx) {
 				const params = new URLSearchParams();
 				params.append(ctx.params.productID,  ctx.params.cusID);
-
-				const response = await fetch("localhost:3003/cart/removeProductFromCart", {method: "POST", body: params});
+				const response = await fetch("http://localhost:3003/cart/removeProductFromCart", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
 				return data;
@@ -80,7 +79,7 @@ module.exports = {
 				const params = new URLSearchParams();
 				params.append(ctx.params.productID,  ctx.params.cusID);
 
-				const response = await fetch("localhost:3003/cart/addQuantity", {method: "POST", body: params});
+				const response = await fetch("http://localhost:3003/cart/addQuantity", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
 				return data;
@@ -117,7 +116,7 @@ module.exports = {
 				const params = new URLSearchParams();
 				params.append(ctx.params.cusID,  ctx.params.status, ctx.params.totalPrice);
 
-				const response = await fetch("localhost:3003/orderTicket/add", {method: "POST", body: params});
+				const response = await fetch("http://localhost:3003/orderTicket/add", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
 				return data;
@@ -129,14 +128,15 @@ module.exports = {
 				path: "/orderTicket/listByUserID"
 			},
 			params: {
-				id: "string"
+				id: "string",
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-				const response = await fetch("localhost:3003/orderTicket/listByUserID/" + new URLSearchParams({
+				const response = await fetch("http://localhost:3003/orderTicket/listByUserID/" + new URLSearchParams({
 					id: ctx.params.id,
 				}));
 				const data = await response.json();
+				console.log(ctx.params.id);
 				return data.orderTicketList;
 			}
 		},
@@ -146,7 +146,7 @@ module.exports = {
 				path: "/orderTicket/listAll"
 			},
 			async handler() {
-				const response = await fetch("localhost:3003/orderTicket/listAll");
+				const response = await fetch("http://localhost:3003/orderTicket/listAll");
 				const data = await response.json();
 				return data.orderTicketList;
 			}
@@ -165,7 +165,7 @@ module.exports = {
 				const params = new URLSearchParams();
 				params.append(ctx.params.cusID,  ctx.params.status);
 
-				const response = await fetch("localhost:3003/checkOut/add ", {method: "POST", body: params});
+				const response = await fetch("http://localhost:3003/checkOut/add ", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
 				return data;
@@ -181,7 +181,7 @@ module.exports = {
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-				const response = await fetch("localhost:3003/checkOut/listByUserID/" + new URLSearchParams({
+				const response = await fetch("http://localhost:3003/checkOut/listByUserID/" + new URLSearchParams({
 					id: ctx.params.id,
 				}));
 				const data = await response.json();
