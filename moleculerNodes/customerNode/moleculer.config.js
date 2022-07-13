@@ -29,7 +29,7 @@ module.exports = {
 	// Namespace of nodes to segment your nodes on the same network.
 	namespace: "",
 	// Unique node identifier. Must be unique in a namespace.
-	nodeID: "apigw",
+	nodeID: "customerNode1",
 	// Custom metadata store. Store here what you want. Accessing: `this.broker.metadata`
 	metadata: {},
 
@@ -58,11 +58,11 @@ module.exports = {
 	// More info: https://moleculer.services/docs/0.14/networking.html
 	// Note: During the development, you don't need to define it because all services will be loaded locally.
 	// In production you can set it via `TRANSPORTER=nats://localhost:4222` environment variable.
-	transporter: "AMQP", //"NATS"
+	transporter: "AMQP",
 
 	// Define a cacher.
 	// More info: https://moleculer.services/docs/0.14/caching.html
-	cacher: "Memory",
+	cacher: null,
 
 	// Define a serializer.
 	// Available values: "JSON", "Avro", "ProtoBuf", "MsgPack", "Notepack", "Thrift".
@@ -158,7 +158,7 @@ module.exports = {
 			type: "Prometheus",
 			options: {
 				// HTTP port
-				port: 3032,
+				port: 3036,
 				// HTTP URL path
 				path: "/metrics",
 				// Default labels which are appended to all metrics labels

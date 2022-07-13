@@ -22,6 +22,7 @@
     "moleculer-repl": "^0.6.6"
   },
   "dependencies": {
+    "amqplib": "^0.10.0",
     "concurrently": "^7.2.2",
     "fetch": "^1.1.0",
     "moleculer": "^0.14.16",
