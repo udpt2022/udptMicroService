@@ -114,9 +114,9 @@ module.exports = {
 	registry: {
 		// Define balancing strategy. More info: https://moleculer.services/docs/0.14/balancing.html
 		// Available values: "RoundRobin", "Random", "CpuUsage", "Latency", "Shard"
-		strategy: "RoundRobin",
+		strategy: "Random",//"RoundRobin",
 		// Enable local action call preferring. Always call the local action instance if available.
-		preferLocal: true
+		preferLocal: false
 	},
 
 	// Settings of Circuit Breaker. More info: https://moleculer.services/docs/0.14/fault-tolerance.html#Circuit-Breaker

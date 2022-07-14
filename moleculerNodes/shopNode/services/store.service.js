@@ -5,12 +5,15 @@ const Sequelize = require("sequelize");
 const SequelizeAdapter = require('moleculer-db-adapter-sequelize');
 const { Context } = require("moleculer");
 
+//Hoàng
+const fetch = require("node-fetch");
+
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
 
 module.exports = {
-    name: "shop",
+    name: "store",
     mixins: [DbService],
     adapter: new SequelizeAdapter(config.URI_MYSQL_CLOUD || config.URI_MYSQL),
     model: {
@@ -90,7 +93,13 @@ module.exports = {
      */
     settings: {
         fields: ["_id", "name", "phone", "email", "password", "active", "dayStart", "timeOpen", "timeClose",
-            "productCategory", "logo", "agreeTerm", "area", "province", "district", "ward", "address", "longitude", "latitude"]
+            "productCategory", "logo", "agreeTerm", "area", "province", "district", "ward", "address", "longitude", "latitude"],
+
+        //Hoàng
+        cors: {
+			methods: ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"],
+			origin: "*",
+		}
     },
 
     /**
@@ -158,7 +167,52 @@ module.exports = {
 
         findRaw() {
             return this.adapter.db.query("SELECT * FROM stores").then(([res]) => res);
-        }
+        },
+
+        //Hoàng
+        getStatusRegisterStore: {
+			rest:
+			{ 	method: "GET",
+				path: "/getStatusRegisterStore"
+			},
+			params: {
+				id: "string"
+			},
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+				const response = await fetch("http://localhost:3005/storeService/getStatusRegisterStore/"+ new URLSearchParams({
+					id: ctx.params.id,
+				}));
+				const data = await response.json();
+				return data.status;
+			}
+		},
+		registerStore: {
+			rest:
+			{ 	method: "POST",
+				path: "/registerStore"
+			},
+			params: {
+				storeName : "string",
+				phone : "string",
+				email : "string",
+				area : "string",
+				province : "string",
+				district : "string",
+				address : "string",
+
+			},
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+				const params = new URLSearchParams();
+				params.append(ctx.params.storeName, ctx.params.phone, ctx.params.email, ctx.params.area, ctx.params.province, ctx.params.district, ctx.params.address);
+
+				const response = await fetch("http://localhost:3005/storeService/registerStore", {method: "POST", body: params});
+				const data = await response.json();
+				console.log(data);
+				return data;
+			}
+		}
     },
     afterConnected() {
         this.logger.info("Database Connected In ShopNode's Shop Service Successfully");
