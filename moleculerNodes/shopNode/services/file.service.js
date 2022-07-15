@@ -1,3 +1,4 @@
+//https://github.com/moleculerjs/moleculer-web/blob/master/examples/file.service.js
 const fs = require("fs");
 const path = require("path");
 const { NotFoundError } = require("../src/errors");
@@ -33,6 +34,13 @@ module.exports = {
 		},
 
 		get: {
+			rest: {
+                method: "GET",
+                path: "/"
+            },
+            params: {
+                file: "string", //"uuid",
+            },
 			handler(ctx) {
 				const filePath = path.join(uploadDir, ctx.params.file);
 				if (!fs.existsSync(filePath))
@@ -45,6 +53,10 @@ module.exports = {
 		},
 
 		save: {
+			rest: {
+                method: "POST",
+                path: "/"
+            },
 			handler(ctx) {
 				this.logger.info("Received upload $params:", ctx.meta.$params);
 				return new this.Promise((resolve, reject) => {

@@ -27,11 +27,13 @@ module.exports = {
             name: Sequelize.STRING,
             phone: {
                 type: Sequelize.STRING,
-                unique: true
+                unique: true,
+                required: true,
             },
             email: {
                 type: Sequelize.STRING,
-                unique: true
+                unique: true,
+                required: true,
             },
             password: Sequelize.STRING,
             active: Sequelize.STRING,
@@ -130,18 +132,52 @@ module.exports = {
                 return result;
             }
         },
-        registerShop: {
+        //register
+        registerStoreKhoa: {
             rest: {
                 method: "POST",
-                path: "/shop/register"
+                path: "/register"
             },
             params: {
-                email: "string",
+                phone: {
+                    type: "string",
+                    unique: true,
+                },
+                email: {
+                    type: "email",
+                    unique: true,
+                },
+                password: "string",
+                dayStart: { type: "date", convert: true},
+                timeOpen: "string",
+                timeClose: "string",
+                productCategory: "string",
+                logo: {
+                    type: "string",
+                    default: "",
+                    required: false,
+                },
+                agreeTerm: {
+                    type: "number",
+                    default: 1,
+                    enum: [0, 1],
+                    convert: true,
+                },
+                province: "string",
+                district: "string",
+                ward: "string",
+                address: "string",
+                $$strict: "remove",
             },
             async handler(ctx) {
                 try {
-                    const data = this.adapter.find({ fields: ["name", "phone"], query: { email: ctx.params.email } });
-                    return data;
+                    //console.log("ctx.meta.register", ctx.meta);
+                    //console.log("ctx.meta.register params", ctx.meta.params);
+                    ctx.call("file.save", this, {meta:{filename:ctx.params.logo}, timeout: 20000});
+                    //return ctx.params;
+                    //ctx.call
+                    let result = await this.actions.create(ctx.params);
+                    return result;
                 } catch (error) {
                     console.log(error);
                 }
