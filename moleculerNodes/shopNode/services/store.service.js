@@ -173,7 +173,7 @@ module.exports = {
                 try {
                     //console.log("ctx.meta.register", ctx.meta);
                     //console.log("ctx.meta.register params", ctx.meta.params);
-                    ctx.call("file.save", this, {meta:{filename:ctx.params.logo}, timeout: 20000});
+                    //ctx.call("file.save", this, {meta:{filename:ctx.params.logo}, timeout: 20000});
                     //return ctx.params;
                     //ctx.call
                     let result = await this.actions.create(ctx.params);

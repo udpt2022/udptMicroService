@@ -36,7 +36,7 @@ module.exports = {
 		get: {
 			rest: {
                 method: "GET",
-                path: "/"
+                path: "/:file"
             },
             params: {
                 file: "string", //"uuid",
