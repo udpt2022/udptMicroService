@@ -6,8 +6,7 @@ function productController() {
     return {
         postProduct: async (req, res, next) => {
             try {
-                formData = req.body
-                console.log(formData)
+                let formData = req.body
                 let productData = new productModel;
                 if (!formData['productID'] ){
                 return res.status(400).json({
@@ -37,7 +36,7 @@ function productController() {
                     status: "Fail",
                     message: "Param input fail"
                 })
-            }          
+            }
             await productModel.findOneAndUpdate(
                 {
                     productID: formData['productID']
@@ -69,7 +68,28 @@ function productController() {
             } catch (error) {
                 return res.status(400).json(error);
             }
-        }
+        },
+        listAll: async (req, res, next) => {
+            try {
+                let productList = await productModel.find()
+            return res.status(200).json({productList})
+            } catch (error) {
+                return res.status(400).json(error);
+            }
+        },
+        listByCategory: async (req, res, next) => {
+            try {
+                let productID = req.params.id;
+                let comment = await productModel.findOne(
+                {
+                    productID: productID
+                }
+            )
+            return res.status(200).json({comment})
+            } catch (error) {
+                return res.status(400).json(error);
+            }
+        },
     };
 }
 

@@ -47,11 +47,15 @@ module.exports = {
 			/** @param {Context} ctx  */
 			async handler(ctx) {
 				const params = new URLSearchParams();
-				params.append(ctx.params.productID, ctx.params.productName, ctx.params.price, ctx.params.unit, ctx.params.inventoryNumber);
-
+				//params.append(ctx.params.productID, ctx.params.productName, ctx.params.price, ctx.params.unit, ctx.params.inventoryNumber);
+				params.append("productID",ctx.params.productID);
+				params.append("productName",ctx.params.productName);
+				params.append("price",ctx.params.price);
+				params.append("unit",ctx.params.unit);
+				params.append("inventoryNumber",ctx.params.inventoryNumber);
+				console.log(params);
 				const response = await fetch("http://localhost:3004/productService/postProduct", {method: "POST", body: params});
 				const data = await response.json();
-				console.log(data);
 				return data;
 			}
 		},
@@ -70,8 +74,13 @@ module.exports = {
 			/** @param {Context} ctx  */
 			async handler(ctx) {
 				const params = new URLSearchParams();
-				params.append(ctx.params.productID, ctx.params.productName, ctx.params.price, ctx.params.unit, ctx.params.inventoryNumber);
-
+				params.append("productID",ctx.params.productID);
+				params.append("productName",ctx.params.productName);
+				params.append("price",ctx.params.price);
+				params.append("unit",ctx.params.unit);
+				params.append("inventoryNumber",ctx.params.inventoryNumber);
+				//ctx.params.productID, ctx.params.productName, ctx.params.price, ctx.params.unit, ctx.params.inventoryNumber
+				console.log(ctx.params.productID);
 				const response = await fetch("http://localhost:3004/productService/updateProduct", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
@@ -93,6 +102,17 @@ module.exports = {
 				}));
 				const data = await response.json();
 				return data.comment;
+			}
+		},
+		listAll: {
+			rest:
+			{ 	method: "GET",
+				path: "/listAll"
+			},
+			async handler() {
+				const response = await fetch("http://localhost:3004/productService/listAll");
+				const data = await response.json();
+				return data.productList;
 			}
 		}
 	},
