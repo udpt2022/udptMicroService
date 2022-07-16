@@ -36,6 +36,7 @@ module.exports = {
                 required: true,
             },
             password: Sequelize.STRING,
+            code: Sequelize.INTEGER,
             active: Sequelize.STRING,
             dayStart: Sequelize.DATE,
             timeOpen: Sequelize.TIME,
@@ -94,7 +95,7 @@ module.exports = {
      * Settings
      */
     settings: {
-        fields: ["_id", "name", "phone", "email", "password", "active", "dayStart", "timeOpen", "timeClose",
+        fields: ["_id", "name", "phone", "email", "password", "code","active", "dayStart", "timeOpen", "timeClose",
             "productCategory", "logo", "agreeTerm", "area", "province", "district", "ward", "address", "longitude", "latitude"],
 
         //Hoàng
@@ -175,7 +176,11 @@ module.exports = {
                     //console.log("ctx.meta.register params", ctx.meta.params);
                     //ctx.call("file.save", this, {meta:{filename:ctx.params.logo}, timeout: 20000});
                     //return ctx.params;
-                    //ctx.call
+                    //random code
+                    const code = Math.floor(100000 + Math.random() * 900000); //generate 6 digit password
+                    ctx.params.code = code;
+
+                    ctx.call("mail.sendMailCode", {email: ctx.params.email}, {meta:{code}, timeout: 120*1000});
                     let result = await this.actions.create(ctx.params);
                     return result;
                 } catch (error) {
