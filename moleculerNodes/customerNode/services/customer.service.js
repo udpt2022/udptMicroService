@@ -33,6 +33,10 @@ module.exports = {
             ward: { type: String, required: true },
             address: { type: String, required: true },
         },
+        store: [
+            {storeID: { type: String, unique: true },
+            storeName: { type: String}}
+        ],
     })),
     // Add Hooks to DB actions or action which you want
     hooks: {
@@ -81,7 +85,57 @@ module.exports = {
     /**
      * Actions
      */
-    actions: {},
+    actions: {
+        getPreferShopByID: {
+            rest: {
+                method: "GET",
+                path: "/preferstore/:_id"
+            },
+            params: {
+                _id: "string",
+            },
+            async handler(ctx) {
+                try {
+                    
+                    const data = await this.adapter.findById({ _id: ctx.params._id });
+                    
+                    return data.store;
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        },
+
+        
+        updatePreferShop: {
+            rest: {
+                method: "POST",
+                path: "/preferstore/:_id"
+            },
+            params: {
+                _id: "string", 
+                storeID: "string",
+                storeName: "string",
+            },
+            async handler(ctx) {
+
+                let preferstore = await this.actions.getPreferShopByID({_id: ctx.params._id}, ctx);
+                preferstore.push({storeID: ctx.params.storeID, storeName: ctx.params.storeName});
+
+                let result = await this.adapter.updateById( ctx.params._id , { $set: {
+                    store: preferstore
+                    }}
+                );
+                result = this.adapter.entityToObject(result);
+                if (!result) {
+                    ctx.meta.$statusCode = 500;
+                    ctx.meta.$statusMessage = "Không thêm được cửa hàng yêu thích!";
+                    return null;
+                }
+                return result;
+            }
+        }
+    },
     afterConnected() {
         this.logger.info("Database Connected In CustomerNode1's customer Service Successfully");
     },
