@@ -133,6 +133,23 @@ module.exports = {
                 return result;
             }
         },
+        //get unactive store list
+        getUnactiveStoreList: {
+            rest: {
+                method: "GET",
+                path: "/unactive"
+            },
+            async handler(ctx) {
+                let result = await this.actions.list({query:{active:0}});
+                //result = this.adapter.entityToObject(result);
+                if (!result) {
+                    ctx.meta.$statusCode = 500;
+                    ctx.meta.$statusMessage = "Không cập nhật được thông tin shop!";
+                    return null;
+                }
+                return result;
+            }
+        },
         //register
         registerStoreKhoa: {
             rest: {
