@@ -191,15 +191,15 @@ module.exports = {
         getShopByEmail: {
             rest: {
                 method: "GET",
-                path: "/email/:email"
+                path: "/email"
             },
             params: {
-                email: "string",
+                email: "email",
             },
             async handler(ctx) {
                 try {
-                    const data = this.adapter.find({ fields: ["name", "phone"], query: { email: ctx.params.email } });
-                    return data;
+                    //const data = this.adapter.find({ fields: ["name", "phone"], query: { email: ctx.params.email } });
+                    return this.adapter.findOne({ query: { email: ctx.params.email } });
                 } catch (error) {
                     console.log(error);
                 }
