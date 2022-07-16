@@ -2,6 +2,7 @@
 const config = require("./../config");
 const DbService = require('moleculer-db');
 const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 const SequelizeAdapter = require('moleculer-db-adapter-sequelize');
 const { Context } = require("moleculer");
 
@@ -133,6 +134,67 @@ module.exports = {
                 return result;
             }
         },
+        rePasswordStore: {
+            rest: {
+                method: "PUT",
+                path: "/repassword"
+            },
+            params: {
+                email: {
+                    type: "email",
+                    unique: true,
+                },
+                code: {
+                    type: "number",
+                    min: 100000,
+                    max: 999999, 
+                    convert: true,
+                },
+                password:{
+                    type: "string",
+                    max: 32
+                }
+            },
+            async handler(ctx) {
+                try {
+                    //console.log(`repassword: ${JSON. stringify(ctx.params)}`);
+                    // return this.adapter.updateMany(
+                    //     { [Op.and]: [{ email: ctx.params.email },{ code: ctx.params.code }]}, 
+                    //     { $set: {password:ctx.params.password} }
+                    // );
+                    let result = await this.adapter.findOne({query:{ email: ctx.params.email , code: ctx.params.code }});
+                    result = this.adapter.entityToObject(result);
+                    if(!result) return null;
+                    console.log(`_id: ${JSON.stringify(result)}`);
+                    return this.adapter.updateById(result._id, {$set: {password: ctx.params.password}});
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        },
+        sendCodeStore: {
+            rest: {
+                method: "PUT",
+                path: "/sendcode"
+            },
+            params: {
+                email: {
+                    type: "email",
+                    unique: true,
+                }
+            },
+            async handler(ctx) {
+                try {
+                    const code = Math.floor(100000 + Math.random() * 900000); //generate 6 digit password
+
+                    //asynchronous at here
+                    ctx.call("mail.sendMailCode", {email: ctx.params.email}, {meta:{code}, timeout: 120*1000});
+                    this.adapter.updateMany({ email: ctx.params.email}, {$set: {code}});
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        },
         //get unactive store list
         getUnactiveStoreList: {
             rest: {
@@ -157,6 +219,9 @@ module.exports = {
                 path: "/register"
             },
             params: {
+                name: {
+                    type: "string",
+                },
                 phone: {
                     type: "string",
                     unique: true,
