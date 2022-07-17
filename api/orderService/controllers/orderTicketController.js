@@ -9,15 +9,15 @@ function orderTicketController() {
                 formData = req.body
                 console.log(formData)
                 let orderData = new orderTicketModel;
-                if (!formData['cusID'] || !formData['totalPrice'] || !formData['status']){
+                if (!formData['customerID'] || !formData['totalPrice'] || !formData['status']){
                 return res.status(400).json({
                     status: "Fail",
                     message: "Param input fail"
                 })
             }
-            orderData.cusID = formData['cusID']
-            orderData.cusID = formData['status']
-            orderData.cusID = formData['totalPrice']
+            orderData.customerID = formData['customerID']
+            orderData.status = formData['status']
+            orderData.totalPrice = formData['totalPrice']
             await orderData.save()
             return res.status(200).json({
                 status: "Success"

@@ -40,8 +40,12 @@ module.exports = {
 			},
 			async handler(ctx) {
 				const params = new URLSearchParams();
-				params.append(ctx.params.productID, ctx.params.productName, ctx.params.quantity, ctx.params.cusID);
-
+				//params.append(ctx.params.productID, ctx.params.productName, ctx.params.quantity, ctx.params.cusID);
+				params.append("productID",ctx.params.productID);
+				params.append("productName",ctx.params.productName);
+				params.append("price",ctx.params.price);
+				params.append("quantity",ctx.params.quantity);
+				params.append("cusID",ctx.params.cusID);
 				const response = await fetch("http://localhost:3003/cart/addProductToCart", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
@@ -59,7 +63,8 @@ module.exports = {
 			},
 			async handler(ctx) {
 				const params = new URLSearchParams();
-				params.append(ctx.params.productID,  ctx.params.cusID);
+				params.append("productID",ctx.params.productID);
+				params.append("cusID",ctx.params.cusID);
 				const response = await fetch("http://localhost:3003/cart/removeProductFromCart", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
@@ -77,8 +82,8 @@ module.exports = {
 			},
 			async handler(ctx) {
 				const params = new URLSearchParams();
-				params.append(ctx.params.productID,  ctx.params.cusID);
-
+				params.append("productID",ctx.params.productID);
+				params.append("cusID",ctx.params.cusID);
 				const response = await fetch("http://localhost:3003/cart/addQuantity", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
@@ -104,18 +109,19 @@ module.exports = {
 		add: {
 			rest:
 			{ 	method: "POST",
-				path: "/orderTicket/addr"
+				path: "/orderTicket/add"
 			},
 			params: {
-				cusID: "string",
+				customerID: "string",
 				status: "string",
 				totalPrice: "string",
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
 				const params = new URLSearchParams();
-				params.append(ctx.params.cusID,  ctx.params.status, ctx.params.totalPrice);
-
+				params.append("customerID",ctx.params.customerID);
+				params.append("status",ctx.params.status);
+				params.append("totalPrice",ctx.params.totalPrice);
 				const response = await fetch("http://localhost:3003/orderTicket/add", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);
@@ -163,8 +169,8 @@ module.exports = {
 			/** @param {Context} ctx  */
 			async handler(ctx) {
 				const params = new URLSearchParams();
-				params.append(ctx.params.cusID,  ctx.params.status);
-
+				params.append("cusID",ctx.params.cusID);
+				params.append("status",ctx.params.status);
 				const response = await fetch("http://localhost:3003/checkOut/add ", {method: "POST", body: params});
 				const data = await response.json();
 				console.log(data);

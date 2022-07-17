@@ -79,13 +79,10 @@ function productController() {
         },
         listByCategory: async (req, res, next) => {
             try {
-                let productID = req.params.id;
-                let comment = await productModel.findOne(
-                {
-                    productID: productID
-                }
-            )
-            return res.status(200).json({comment})
+                let id = req.params.id;
+                let productList = await productModel.find({categoryID: id})
+			console.log(id)
+            return res.status(200).json({productList})
             } catch (error) {
                 return res.status(400).json(error);
             }

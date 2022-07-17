@@ -114,6 +114,23 @@ module.exports = {
 				const data = await response.json();
 				return data.productList;
 			}
+		},
+		listByCategory: {
+			rest:
+			{ 	method: "GET",
+				path: "/listByCategory"
+			},
+			params: {
+				id: "string"
+			},
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+				const response = await fetch("http://localhost:3004/productService/listByCategory/" + new URLSearchParams({
+					id: ctx.params.id,
+				}));
+				const data = await response.json();
+				return data.productList;
+			}
 		}
 	},
 
