@@ -29,7 +29,7 @@ module.exports = {
 	// Namespace of nodes to segment your nodes on the same network.
 	namespace: "",
 	// Unique node identifier. Must be unique in a namespace.
-	nodeID: "shopNode1",
+	nodeID: "shopNode2",
 	// Custom metadata store. Store here what you want. Accessing: `this.broker.metadata`
 	metadata: {},
 
@@ -158,7 +158,7 @@ module.exports = {
 			type: "Prometheus",
 			options: {
 				// HTTP port
-				port: 3035,
+				port: 3036,
 				// HTTP URL path
 				path: "/metrics",
 				// Default labels which are appended to all metrics labels
